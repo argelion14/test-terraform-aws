@@ -1,0 +1,27 @@
+name: Deploy wirh Terraform
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        default: 'certification'
+        options:
+          - certification
+          - preproduction
+          - production
+      tf-plan-extra-args:
+        required: false
+        type: string
+        description: 'Additional arguments to pass to terraform plan command'
+        default: ''
+
+
+jobs:
+  call-reusable-workflow:
+    uses: ./.github/workflows/terraform-deploy.yml
+    with:
+      environment: ${{ github.event.inputs.environment }}
+      tf-plan-extra-args: ${{ github.event.inputs.tf-plan-extra-args }}
+      cloud: "aws"
+    secrets: inherit

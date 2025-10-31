@@ -1,0 +1,61 @@
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      tf-plan-extra-args:
+        required: false
+        type: string
+      cloud:
+        required: true
+        type: string
+
+jobs:
+  terraform-plan:
+    name: TERRAFORM PLAN
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Clean Terraform State
+        run: rm -rf .terraform
+
+      - name: Validate terraform extra args
+        if: ${{ inputs.tf-plan-extra-args }}
+        run: | 
+          echo "Validating terraform extra args: ${{ inputs.tf-plan-extra-args }}"
+
+      - name: Load Configuration from properties.env
+        id: load-config
+        run: |
+          sed -i 's/\r$//' properties.env
+          if [ -f "properties.env" ]; then
+            echo "Loading configuration from properties.env"
+            # Source the file to load variables
+            source properties.env
+
+            # Set default if not specified
+            if [ -z "$TERRAFORM_STRUCTURE_MODE" != "root" ] && [ "$TERRAFORM_STRUCTURE_MODE" != "environment" ]; then
+              echo "x Invalid TERRAFORM STRUCTURE_MODE: $TERRAFORM_STRUCTURE_MODE. Must be 'root' or 'environment'."
+              exit 10
+            fi
+
+            if [ "$REPLACE_TOKENS" = "true" ]; then
+              echo "Repalce tokens is enabled"
+              echo "replace-tokens=true" >> $GITHUB_OUTPUT
+            fi
+
+            echo "Terraform structure mode: $TERRAFORM_STRUCTURE_MODE"
+            echo "TERRAFORM_STRUCTURE_MODE=$TERRAFORM_STRUCTURE_MODE" >> $GITHUB_ENV
+          else
+            echo "properties.env not found, using defaults mode: root"
+            echo "TERRAFORM_STRUCTURE_MODE=root" >> $GITHUB_ENV
+          fi
+
