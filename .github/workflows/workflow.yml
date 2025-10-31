@@ -1,4 +1,4 @@
-name: Deploy wirh Terraform
+name: Deploy with Terraform
 
 on:
   workflow_dispatch:
@@ -16,6 +16,9 @@ on:
         description: 'Additional arguments to pass to terraform plan command'
         default: ''
 
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   call-reusable-workflow:
