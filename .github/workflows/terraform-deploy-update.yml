@@ -68,7 +68,7 @@ jobs:
             echo "STATE_CONFIG_PATH=./state-config" >> $GITHUB_ENV
           else
             echo "Using root Terraform structure"
-            echo "TERRAFORM_DIR=./" >> $GITHUB_ENV
+            echo "TERRAFORM_DIR=." >> $GITHUB_ENV
             echo "TFVARS_PATH=./${{ inputs.environment }}/terraform.tfvars" >> $GITHUB_ENV
             echo "STATE_CONFIG_PATH=./${{ inputs.environment }}/state.config" >> $GITHUB_ENV
           fi
@@ -79,18 +79,18 @@ jobs:
           TF_LOG=${{ vars.TF_LOG }}
           echo "Enabling Terraform logging with level: $TF_LOG"
           echo "TF_LOG=$TF_LOG" >> $GITHUB_ENV
-      
-      - name: Configure Terraform credentials
-        run: |
-          mkdir -p ~/.terraform.d
-          echo '{
-            "credentials": {
-              "app.terraform.io": {
-                "token": "'${{ secrets.TFE_TOKEN }}'"
-              }
-            }
-          }' > ~/.terraform.d/credentials.tfrc.json
-      
+
+      # - name: Configure Terraform credentials
+      #   run: |
+      #     mkdir -p ~/.terraform.d
+      #     echo '{
+      #       "credentials": {
+      #         "app.terraform.io": {
+      #           "token": "'${{ secrets.TFE_TOKEN }}'"
+      #         }
+      #       }
+      #     }' > ~/.terraform.d/credentials.tfrc.json
+
       - name: Debug OIDC Token Information
         if: ${{ vars.TF_LOG }}
         run: |

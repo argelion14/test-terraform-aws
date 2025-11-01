@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
+        description: 'Deployment environment to select the target'
         type: choice
         default: 'certification'
         options:
