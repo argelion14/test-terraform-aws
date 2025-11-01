@@ -191,6 +191,9 @@ jobs:
         working-directory: ${{ env.TERRAFORM_DIR }}
         run: terraform init -backend-config=${{ env.STATE_CONFIG_PATH }} -upgrade
 
+      - name: Show repository structure
+        run: tree -a -L 3
+
       - name: Terraform Plan
         working-directory: ${{ env.TERRAFORM_DIR }}
         run: |
