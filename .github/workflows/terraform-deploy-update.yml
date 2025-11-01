@@ -160,12 +160,12 @@ jobs:
           aws-access-key-id: ${{ steps.creds.outputs.access-key-id }}
           aws-secret-access-key: ${{ steps.creds.outputs.secret-access-key }}
           aws-session-token: ${{ steps.creds.outputs.session-token }}
-      
+
       - name: Replace tokens in terraform files
         if: ${{ steps.load-config.outputs.replace-tokens == 'true' }}
         run: |
           echo "HOLA"
-      
+
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
         with:
