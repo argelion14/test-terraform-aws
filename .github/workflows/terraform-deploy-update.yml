@@ -199,26 +199,30 @@ jobs:
         run: |
           terraform plan -lock=false -out=tfplan -var-file=${{ env.TFVARS_PATH }} ${{ inputs.tf-plan-extra-args }}
 
-  terraform-apply:
-    name: TERRAFORM APPLY
-    runs-on: ubuntu-latest
-    needs: terraform-plan
-    environment: ${{ inputs.environment }}
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Clean Terraform State
-        run: rm -rf .terraform
-
-      - name: Validate terraform extra args
-        if: ${{ inputs.tf-plan-extra-args }}
-        run: |
-          echo "Validating terraform extra args: ${{ inputs.tf-plan-extra-args }}"
-
       - name: Terraform Apply
         working-directory: ${{ env.TERRAFORM_DIR }}
         run: terraform apply -auto-approve -var-file=${{ env.TFVARS_PATH }}
+
+  # terraform-apply:
+  #   name: TERRAFORM APPLY
+  #   runs-on: ubuntu-latest
+  #   needs: terraform-plan
+  #   environment: ${{ inputs.environment }}
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+
+  #     - name: Clean Terraform State
+  #       run: rm -rf .terraform
+
+  #     - name: Validate terraform extra args
+  #       if: ${{ inputs.tf-plan-extra-args }}
+  #       run: |
+  #         echo "Validating terraform extra args: ${{ inputs.tf-plan-extra-args }}"
+
+  #     - name: Terraform Apply
+  #       working-directory: ${{ env.TERRAFORM_DIR }}
+  #       run: terraform apply -auto-approve -var-file=${{ env.TFVARS_PATH }}
