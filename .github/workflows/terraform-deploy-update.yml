@@ -126,15 +126,30 @@ jobs:
           TOKEN=$(curl -sSL -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com")
           echo "Token recibido: ${TOKEN:0:100}..."
 
+      - name: Show Environment Variables
+        run: |
+          echo "============================================"
+          echo "🔍 Current Environment Context"
+          echo "============================================"
+          echo "Environment: ${{ inputs.environment }}"
+          echo ""
+          echo "AWS_DEPLOYER_ROLE: ${{ secrets.AWS_DEPLOYER_ROLE }}"
+          echo "AWS_OIDC_ROLE:     ${{ vars.AWS_OIDC_ROLE }}"
+          echo "AWS_REGION:        ${{ vars.AWS_REGION }}"
+          echo "S3_BUCKET:         ${{ vars.S3_BUCKET }}"
+          echo ""
+          echo "Working directory: ${{ env.TERRAFORM_DIR }}"
+          echo "TFVARS Path:       ${{ env.TFVARS_PATH }}"
+          echo "State Config Path: ${{ env.STATE_CONFIG_PATH }}"
+          echo "============================================"
       - name: AWS Login with OIDC
         if: ${{ inputs.cloud == 'aws' }}
         id: 'creds'
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ vars.AWS_OIDC_ROLE }}
+          role-to-assume: arn:aws:iam::008085406668:role/AWS_OIDC_ROLE
           aws-region: ${{ vars.AWS_REGION }}
           output-credentials: true
-          audience: sts.amazonaws.com
 
       - name: AWS Assume Deployer Role
         if: ${{ inputs.cloud == 'aws' }}
