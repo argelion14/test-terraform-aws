@@ -131,9 +131,10 @@ jobs:
         id: 'creds'
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ vars.AWS_OIDC_ROLE }}
+          role-to-assume: arn:aws:iam::008085406668:role/AWS_OIDC_ROLE
           aws-region: ${{ vars.AWS_REGION }}
           output-credentials: true
+          audience: sts.amazonaws.com
 
       - name: AWS Assume Deployer Role
         if: ${{ inputs.cloud == 'aws' }}
