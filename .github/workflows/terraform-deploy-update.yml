@@ -151,6 +151,9 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           output-credentials: true
 
+      - name: Verify AWS OIDC Role Identity
+        run: aws sts get-caller-identity
+
       - name: AWS Assume Deployer Role
         if: ${{ inputs.cloud == 'aws' }}
         uses: aws-actions/configure-aws-credentials@v4
@@ -160,8 +163,9 @@ jobs:
           aws-access-key-id: ${{ steps.creds.outputs.access-key-id }}
           aws-secret-access-key: ${{ steps.creds.outputs.secret-access-key }}
           aws-session-token: ${{ steps.creds.outputs.session-token }}
+          role-chaining: true
 
-      - name: Verify AWS Role Identity
+      - name: Verify AWS Deployer Role Identity
         run: aws sts get-caller-identity
 
       - name: Replace tokens in terraform files
