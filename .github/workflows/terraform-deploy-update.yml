@@ -216,5 +216,9 @@ jobs:
 
       - name: Validate terraform extra args
         if: ${{ inputs.tf-plan-extra-args }}
-        run: | 
+        run: |
           echo "Validating terraform extra args: ${{ inputs.tf-plan-extra-args }}"
+
+      - name: Terraform Apply
+        working-directory: ${{ env.TERRAFORM_DIR }}
+        run: terraform apply -auto-approve -var-file=${{ env.TFVARS_PATH }}
