@@ -120,6 +120,12 @@ jobs:
             echo "OIDC token environment variables not set."
           fi
 
+      - name: Debug OIDC token
+        run: |
+          echo "Solicitando token OIDC..."
+          TOKEN=$(curl -sSL -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com")
+          echo "Token recibido: ${TOKEN:0:100}..."
+
       - name: AWS Login with OIDC
         if: ${{ inputs.cloud == 'aws' }}
         id: 'creds'
