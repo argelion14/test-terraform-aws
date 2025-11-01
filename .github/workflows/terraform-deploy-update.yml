@@ -171,6 +171,13 @@ jobs:
         with:
           terraform_version: 1.9.8
 
+      - name: Test AWS S3 Access
+        run: |
+          echo "🔍 Checking access to S3 bucket: ${{ vars.S3_BUCKET }}"
+          aws s3 ls s3://${{ vars.S3_BUCKET }}/
+        env:
+          AWS_DEFAULT_REGION: ${{ vars.AWS_REGION }}
+
       - name: Authenticate in terraform
         working-directory: ${{ env.TERRAFORM_DIR }}
         run: terraform init -backend-config=${{ env.STATE_CONFIG_PATH }} -upgrade
