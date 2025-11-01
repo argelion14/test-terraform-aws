@@ -30,12 +30,12 @@ resource "random_id" "rand" {
 }
 
 # 💻 Crear instancia EC2 básica
-resource "aws_instance" "tf_test_instance" {
-  ami           = "ami-0c7217cdde317cfec" # Amazon Linux 2 (eu-west-1)
-  instance_type = "t2.micro"
+# resource "aws_instance" "tf_test_instance" {
+#   ami           = "ami-0c7217cdde317cfec" # Amazon Linux 2 (eu-west-1)
+#   instance_type = "t2.micro"
 
-  tags = {
-    Name        = "TF Test EC2"
-    Environment = var.environment
-  }
-}
+#   tags = {
+#     Name        = "TF Test EC2"
+#     Environment = var.environment
+#   }
+# }
