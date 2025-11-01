@@ -179,16 +179,22 @@ jobs:
       #     sudo apt-get update -y
       #     sudo apt-get install -y awscli
 
-      - name: Test AWS S3 Access
+      # - name: Test AWS S3 Access
+      #   run: |
+      #     echo "🔍 Checking access to S3 bucket: ${{ vars.S3_BUCKET }}"
+      #     aws s3 ls s3://argeuwestas3backendcrit001
+      #   env:
+      #     AWS_DEFAULT_REGION: ${{ vars.AWS_REGION }}
+      #     AWS_REGION: ${{ vars.AWS_REGION }}
+      #     AWS_ACCESS_KEY_ID: ${{ steps.creds.outputs.access-key-id }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ steps.creds.outputs.secret-access-key }}
+      #     AWS_SESSION_TOKEN: ${{ steps.creds.outputs.session-token }}
+
+      - name: Verify AWS credentials
         run: |
-          echo "🔍 Checking access to S3 bucket: ${{ vars.S3_BUCKET }}"
-          aws s3 ls s3://${{ vars.S3_BUCKET }}/
-        env:
-          AWS_DEFAULT_REGION: ${{ vars.AWS_REGION }}
-          AWS_REGION: ${{ vars.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ steps.creds.outputs.access-key-id }}
-          AWS_SECRET_ACCESS_KEY: ${{ steps.creds.outputs.secret-access-key }}
-          AWS_SESSION_TOKEN: ${{ steps.creds.outputs.session-token }}
+          echo "🔍 Checking access to S3 bucket: argeuwestas3backendcrit001"
+          aws sts get-caller-identity
+          aws s3 ls s3://argeuwestas3backendcrit001
 
       - name: Authenticate in terraform
         working-directory: ${{ env.TERRAFORM_DIR }}
