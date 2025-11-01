@@ -163,7 +163,6 @@ jobs:
           aws-access-key-id: ${{ steps.creds.outputs.access-key-id }}
           aws-secret-access-key: ${{ steps.creds.outputs.secret-access-key }}
           aws-session-token: ${{ steps.creds.outputs.session-token }}
-          role-chaining: true
 
       - name: Verify AWS Deployer Role Identity
         run: aws sts get-caller-identity
