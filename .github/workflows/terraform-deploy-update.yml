@@ -133,7 +133,7 @@ jobs:
           echo "============================================"
           echo "Environment: ${{ inputs.environment }}"
           echo ""
-          echo "AWS_DEPLOYER_ROLE: ${{ secrets.AWS_DEPLOYER_ROLE }}"
+          echo "AWS_DEPLOYER_ROLE: ${{ vars.AWS_DEPLOYER_ROLE }}"
           echo "AWS_OIDC_ROLE:     ${{ vars.AWS_OIDC_ROLE }}"
           echo "AWS_REGION:        ${{ vars.AWS_REGION }}"
           echo "S3_BUCKET:         ${{ vars.S3_BUCKET }}"
@@ -147,7 +147,7 @@ jobs:
         id: 'creds'
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::008085406668:role/AWS_OIDC_ROLE
+          role-to-assume: ${{ vars.AWS_OIDC_ROLE }}
           aws-region: ${{ vars.AWS_REGION }}
           output-credentials: true
 
