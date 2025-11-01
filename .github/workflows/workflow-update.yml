@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   call-reusable-workflow:
-    uses: ./.github/workflows/terraform-deploy.yml
+    uses: ./.github/workflows/terraform-deploy-update.yml
     with:
       environment: ${{ github.event.inputs.environment }}
       tf-plan-extra-args: ${{ github.event.inputs.tf-plan-extra-args }}
