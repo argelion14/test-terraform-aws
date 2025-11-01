@@ -158,7 +158,7 @@ jobs:
         if: ${{ inputs.cloud == 'aws' }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_DEPLOYER_ROLE }}
+          role-to-assume: ${{ vars.AWS_DEPLOYER_ROLE }}
           aws-region: ${{ vars.AWS_REGION }}
           aws-access-key-id: ${{ steps.creds.outputs.access-key-id }}
           aws-secret-access-key: ${{ steps.creds.outputs.secret-access-key }}
