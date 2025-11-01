@@ -166,6 +166,11 @@ jobs:
         run: |
           echo "HOLA"
       
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+
       - name: Authenticate in terraform
         working-directory: ${{ env.TERRAFORM_DIR }}
         run: terraform init -backend-config=${{ env.STATE_CONFIG_PATH }} -upgrade
