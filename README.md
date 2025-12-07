@@ -72,3 +72,7 @@ Permisos
 - AmazonS3FullAccess
 - IAMReadOnlyAccess
 
+
+<a href="https://trackgit.com">
+<img src="https://us-central1-trackgit-analytics.cloudfunctions.net/token/ping/miuvvj6v790jcmq665am" alt="trackgit-views" />
+</a>
